@@ -1,0 +1,272 @@
+[
+    {
+        "roll_no": 101,
+        "name": "Arjun Kumar",
+        "age": 18,
+        "dept": "AI&DS",
+        "year": "I",
+        "marks": {
+            "Maths": 85,
+            "Physics": 78,
+            "English": 90
+        },
+        "total": 253,
+        "percentage": 84.33333333333333,
+        "gpa": 8.43
+    },
+    {
+        "roll_no": 102,
+        "name": "Sneha Raj",
+        "age": 19,
+        "dept": "CSE",
+        "year": "II",
+        "marks": {
+            "DBMS": 88,
+            "DSA": 91,
+            "OS": 84
+        },
+        "total": 263,
+        "percentage": 87.66666666666667,
+        "gpa": 8.77
+    },
+    {
+        "roll_no": 103,
+        "name": "Vikram Singh",
+        "age": 20,
+        "dept": "ECE",
+        "year": "III",
+        "marks": {
+            "Digital Electronics": 76,
+            "Communication": 82,
+            "Signal Processing": 88
+        },
+        "total": 246,
+        "percentage": 82.0,
+        "gpa": 8.2
+    },
+    {
+        "roll_no": 104,
+        "name": "Aditi Sharma",
+        "age": 21,
+        "dept": "IT",
+        "year": "IV",
+        "marks": {
+            "Web Dev": 93,
+            "AI": 89,
+            "Machine Learning": 95
+        },
+        "total": 277,
+        "percentage": 92.33333333333333,
+        "gpa": 9.23
+    },
+    {
+        "roll_no": 105,
+        "name": "Rahul Nair",
+        "age": 18,
+        "dept": "Mechanical",
+        "year": "I",
+        "marks": {
+            "Mechanics": 74,
+            "Engineering Drawing": 80,
+            "Thermodynamics": 78
+        },
+        "total": 232,
+        "percentage": 77.33333333333333,
+        "gpa": 7.73
+    },
+    {
+        "roll_no": 106,
+        "name": "Meera Iyer",
+        "age": 19,
+        "dept": "AI&DS",
+        "year": "II",
+        "marks": {
+            "Maths": 89,
+            "AI": 90,
+            "Python": 85
+        },
+        "total": 264,
+        "percentage": 88.0,
+        "gpa": 8.8
+    },
+    {
+        "roll_no": 107,
+        "name": "Siddharth Roy",
+        "age": 20,
+        "dept": "CSE",
+        "year": "III",
+        "marks": {
+            "OS": 70,
+            "CN": 75,
+            "DBMS": 78
+        },
+        "total": 223,
+        "percentage": 74.33333333333333,
+        "gpa": 7.43
+    },
+    {
+        "roll_no": 108,
+        "name": "Ananya Das",
+        "age": 18,
+        "dept": "ECE",
+        "year": "I",
+        "marks": {
+            "Maths": 91,
+            "Physics": 88,
+            "Chemistry": 84
+        },
+        "total": 263,
+        "percentage": 87.66666666666667,
+        "gpa": 8.77
+    },
+    {
+        "roll_no": 109,
+        "name": "Manoj Pillai",
+        "age": 21,
+        "dept": "IT",
+        "year": "IV",
+        "marks": {
+            "Cloud Computing": 82,
+            "DevOps": 86,
+            "Big Data": 79
+        },
+        "total": 247,
+        "percentage": 82.33333333333333,
+        "gpa": 8.23
+    },
+    {
+        "roll_no": 110,
+        "name": "Kavya Reddy",
+        "age": 19,
+        "dept": "AI&DS",
+        "year": "II",
+        "marks": {
+            "Python": 94,
+            "ML": 91,
+            "DSA": 89
+        },
+        "total": 274,
+        "percentage": 91.33333333333333,
+        "gpa": 9.13
+    },
+    {
+        "roll_no": 111,
+        "name": "Aravind Krish",
+        "age": 20,
+        "dept": "CSE",
+        "year": "III",
+        "marks": {
+            "Java": 78,
+            "DBMS": 80,
+            "OS": 76
+        },
+        "total": 234,
+        "percentage": 78.0,
+        "gpa": 7.8
+    },
+    {
+        "roll_no": 112,
+        "name": "Divya Menon",
+        "age": 21,
+        "dept": "ECE",
+        "year": "IV",
+        "marks": {
+            "Embedded": 85,
+            "IoT": 82,
+            "VLSI": 80
+        },
+        "total": 247,
+        "percentage": 82.33333333333333,
+        "gpa": 8.23
+    },
+    {
+        "roll_no": 113,
+        "name": "Rohit Verma",
+        "age": 18,
+        "dept": "Mechanical",
+        "year": "I",
+        "marks": {
+            "Mechanics": 79,
+            "Thermo": 77,
+            "ED": 74
+        },
+        "total": 230,
+        "percentage": 76.66666666666667,
+        "gpa": 7.67
+    },
+    {
+        "roll_no": 114,
+        "name": "Nisha Patil",
+        "age": 19,
+        "dept": "IT",
+        "year": "II",
+        "marks": {
+            "OOP": 92,
+            "DBMS": 88,
+            "OS": 85
+        },
+        "total": 265,
+        "percentage": 88.33333333333333,
+        "gpa": 8.83
+    },
+    {
+        "roll_no": 115,
+        "name": "Yashwant Rao",
+        "age": 20,
+        "dept": "AI&DS",
+        "year": "III",
+        "marks": {
+            "AI": 87,
+            "ML": 90,
+            "Data Mining": 88
+        },
+        "total": 265,
+        "percentage": 88.33333333333333,
+        "gpa": 8.83
+    },
+    {
+        "roll_no": 116,
+        "name": "Chandhru",
+        "age": 18,
+        "dept": "AI&DS",
+        "year": "II",
+        "marks": {
+            "Ml": 97,
+            "DBMS": 95,
+            "OS": 100
+        },
+        "total": 292,
+        "percentage": 97.33333333333333,
+        "gpa": 9.73
+    },
+    {
+        "roll_no": 117,
+        "name": "akshaya",
+        "age": 18,
+        "dept": "AI&DS",
+        "year": "II",
+        "marks": {
+            "DMBS": 100,
+            "FML": 100,
+            "OS": 96
+        },
+        "total": 296,
+        "percentage": 98.66666666666667,
+        "gpa": 9.87
+    },
+    {
+        "roll_no": 118,
+        "name": "Abhijith",
+        "age": 18,
+        "dept": "AI&DS",
+        "year": "II",
+        "marks": {
+            "Math": 100,
+            "OS": 95,
+            "DBMS": 100
+        },
+        "total": 295,
+        "percentage": 98.33333333333333,
+        "gpa": 9.83
+    }
+]
