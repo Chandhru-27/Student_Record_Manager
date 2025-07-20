@@ -29,9 +29,9 @@ class Database:
             )
             self.cursor = self.connection.cursor()
 
-        except mysql.connector.Error as err:
-            print(f"❌ Error: {err}")
-
+        except Exception as e:
+            print("Database connection error:", e)
+            raise
     def create_table(self):
         """
         Create the 'students' table if it doesn't already exist.
@@ -106,7 +106,15 @@ class Database:
         self.cursor.execute(sql, values)
         self.connection.commit()
 
-    def fetch_admin_password(self , username):
+    def student_username_exists(self, username):
+        self.cursor.execute("SELECT 1 FROM students WHERE username = %s", (username,))
+        return self.cursor.fetchone() is not None
+
+    def admin_username_exists(self, username):
+        self.cursor.execute("SELECT 1 FROM admins WHERE username = %s", (username,))
+        return self.cursor.fetchone() is not None
+
+    def fetch_admin_password(self, username):
         self.cursor.execute("SELECT password_hash FROM admins WHERE username = %s", (username,))
         return self.cursor.fetchone()
 
@@ -170,6 +178,10 @@ class Database:
             )
         return None
 
+    def fetch_student_password(self, username):
+        self.cursor.execute("SELECT password_hash FROM students WHERE username = %s", (username,))
+        return self.cursor.fetchone()
+
     def close(self):
         """
         Close the database connection.
@@ -219,25 +231,25 @@ class Student:
 # --------------------------- Admin Functions --------------------------- #
 def add_student():
     db = Database()
-    n = int(input("Enter the number of students to add: "))
+    n = int(input("Enter the number of students to add: ").strip())
 
     for _ in range(n):
-        roll_number = int(input("Enter roll number: "))
+        roll_number = int(input("Enter roll number: ").strip())
 
         if db.student_exists(roll_number):
             print(f"Roll number {roll_number} already exists. Skipping...")
             continue
 
-        name = input("Enter name: ")
+        name = input("Enter name: ").strip()
         age = int(input("Enter age: "))
-        year = input("Enter academic year (I/II/III/IV): ")
-        dept = input("Enter department: ")
+        year = input("Enter academic year (I/II/III/IV): ").strip()
+        dept = input("Enter department: ").strip()
         marks = {}
-        subject_count = int(input("Enter number of subjects: "))
+        subject_count = int(input("Enter number of subjects: ").strip())
 
         for i in range(subject_count):
-            sub = input(f"Enter subject {i + 1}: ")
-            marks[sub] = int(input("Enter marks: "))
+            sub = input(f"Enter subject {i + 1}: ").strip()
+            marks[sub] = int(input("Enter marks: ").strip())
 
         student = Student(roll_number, name, age, dept, year, marks)
 
@@ -249,7 +261,7 @@ def add_student():
 
 def remove_student():
     db = Database()
-    roll_number = int(input("Enter roll number to remove: "))
+    roll_number = int(input("Enter roll number to remove: ").strip())
 
     if db.student_exists(roll_number):
         db.delete_student(roll_number)
@@ -262,30 +274,30 @@ def remove_student():
 
 def update_student():
     db = Database()
-    roll_number = int(input("Enter roll number to update: "))
+    roll_number = int(input("Enter roll number to update: ").strip())
 
     if db.student_exists(roll_number):
         student = db.fetch_student(roll_number)
         print("1. Update Age\n2. Update Marks\n3. Update Academic Year")
 
-        choice = int(input("Enter choice: "))
+        choice = int(input("Enter choice: ").strip())
 
         if choice == 1:
-            student.age = int(input("Enter new age: "))
+            student.age = int(input("Enter new age: ").strip())
 
         elif choice == 2:
-            subject_count = int(input("Enter number of subjects: "))
+            subject_count = int(input("Enter number of subjects: ").strip())
             new_marks = {}
 
             for i in range(subject_count):
-                sub = input(f"Enter subject {i + 1}: ")
-                new_marks[sub] = int(input("Enter marks: "))
+                sub = input(f"Enter subject {i + 1}: ").strip()
+                new_marks[sub] = int(input("Enter marks: ").strip())
 
             student.marks = new_marks
             student.calculate_marks()
 
         elif choice == 3:
-            student.year = input("Enter new academic year: ")
+            student.year = input("Enter new academic year(I/II/III/IV): ").strip()
 
         else:
             print("❌ Invalid choice.")
@@ -301,7 +313,7 @@ def update_student():
 # --------------------------- Student Functions --------------------------- #
 def generate_report_card():
     db = Database()
-    roll_number = int(input("Enter roll number: "))
+    roll_number = int(input("Enter roll number: ").strip())
     if db.student_exists(roll_number):
         student = db.fetch_student(roll_number)
         print("\n--- 📄 Report Card ---")
@@ -313,7 +325,7 @@ def generate_report_card():
 # --------------------------- Menu Handlers --------------------------- #
 def admin_menu():
     print("Admin Options:\n1. Add Student\n2. Remove Student\n3. Update Student\n4. Add New Admin")
-    choice = int(input("Enter choice: "))
+    choice = int(input("Enter choice: ").strip())
 
     if choice == 1:
         add_student()
@@ -331,7 +343,7 @@ def admin_menu():
         print("❌ Invalid choice.")
 
 def student_menu():
-    choice = input("Do you want to view your report card? (Y/N): ").lower()
+    choice = (input("Do you want to view your report card? (Y/N): ").strip()).lower()
 
     if choice == 'y':
         generate_report_card()
@@ -346,14 +358,19 @@ def student_menu():
 
 def student_signup():
     db = Database()
-    roll_number = input("Enter your roll number: ")
+    roll_number = input("Enter your roll number: ").strip()
 
     if db.student_exists(roll_number):
-        username = input("Enter username: ")
+        while True:
+            username = input("Enter username: ").strip()
+            if db.student_username_exists(username):
+                print("OOPS! Username already taken😀. Try another!")
+            else:
+                break
 
         while True:
-            password = input("Enter new password: ")
-            confirm = input("Confirm password: ")
+            password = input("Enter new password: ").strip()
+            confirm = input("Confirm password: ").strip()
             if confirm == password:
                 break
             else:
@@ -361,6 +378,7 @@ def student_signup():
 
         hashed_pw = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
+    try:
         db.cursor.execute(
             """
             UPDATE students 
@@ -370,7 +388,9 @@ def student_signup():
             (username, hashed_pw, roll_number)
         )
         db.connection.commit()
-        print("✅ Successfully signed up. ")
+        print("✅ Successfully signed up.")
+    except Exception as e:
+        print("❌ Signup failed due to a database error:", e)
 
     else:
         print("❌ Roll number not found. Please contact admin.")
@@ -379,9 +399,9 @@ def student_signup():
 
 def student_login():
     db = Database()
-    username = input("Enter username: ")
+    username = input("Enter username: ").strip()
 
-    result = db.fetch_admin_password(username)
+    result = db.fetch_student_password(username)
 
     if not result:
         print("❌ Username not found.")
@@ -392,7 +412,7 @@ def student_login():
     attempts = 3
 
     while attempts > 0:
-        password = input("Enter your password: ")
+        password = input("Enter your password: ").strip()
 
         if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
             print("✅ Login successful.")
@@ -409,7 +429,7 @@ def student_login():
 
 def admin_login():
     db = Database()
-    username = input("Enter username: ")
+    username = input("Enter username: ").strip()
 
     result = db.fetch_admin_password(username)
 
@@ -422,7 +442,7 @@ def admin_login():
     attempts = 3
 
     while attempts > 0:
-        password = input("Enter your password: ")
+        password = input("Enter your password: ").strip()
 
         if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
             print("✅ Login successful.")
@@ -440,13 +460,19 @@ def admin_login():
 def add_admin():
     db = Database()
 
-    name = input("Enter admin name: ")
-    username = input("Enter username: ")
+    name = input("Enter admin name: ").strip()
+
+    while True:
+        username = input("Enter username: ").strip()
+        if db.admin_username_exists(username):
+            print("OOPS! Username already taken😀. Try another!")
+        else:
+            break
     
     while True:
 
-        password = input("Enter new password: ")
-        confirm = input("Confirm password: ")
+        password = input("Enter new password: ").strip()
+        confirm = input("Confirm password: ").strip()
         if confirm == password:
             break
         else:
@@ -466,7 +492,7 @@ def main_menu():
         print("\n--- 🎓 Student Record Manager ---")
         print("1. Admin Login\n2. Student Login\n3. Student Signup\n4. Exit")
 
-        choice = int(input("Enter your choice: "))
+        choice = int(input("Enter your choice: ").strip())
 
         if choice == 1:
             
