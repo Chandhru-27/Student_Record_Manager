@@ -264,8 +264,13 @@ def remove_student():
     roll_number = int(input("Enter roll number to remove: ").strip())
 
     if db.student_exists(roll_number):
-        db.delete_student(roll_number)
-        print("✅ Student removed successfully.")
+        confirm = input(f"Are you sure you want to delete student with roll number 🙄 {roll_number}? (y/n): ").strip().lower()
+
+        if confirm == 'y':
+            db.delete_student(roll_number)
+            print("✅ Student removed successfully.")
+        else:
+            print("❌ Deletion cancelled.")
 
     else:
         print("❌ Student not found.")
@@ -324,35 +329,44 @@ def generate_report_card():
 
 # --------------------------- Menu Handlers --------------------------- #
 def admin_menu():
-    print("Admin Options:\n1. Add Student\n2. Remove Student\n3. Update Student\n4. Add New Admin")
-    choice = int(input("Enter choice: ").strip())
+    while True:
+        print("\nAdmin Options:\n1. Add Student\n2. Remove Student\n3. Update Student\n4. Add New Admin\n5. Main Menu")
+        choice = int(input("Enter choice: ").strip())
 
-    if choice == 1:
-        add_student()
+        if choice == 1:
+            add_student()
 
-    elif choice == 2:
-        remove_student()
+        elif choice == 2:
+            remove_student()
 
-    elif choice == 3:
-        update_student()
+        elif choice == 3:
+            update_student()
 
-    elif choice == 4:
-        add_admin()
+        elif choice == 4:
+            add_admin()
 
-    else:
-        print("❌ Invalid choice.")
+        elif choice == 5:
+            print("👋 Logging out admin...")
+            break
+
+        else:
+            print("❌ Invalid choice.")
+
 
 def student_menu():
-    choice = (input("Do you want to view your report card? (Y/N): ").strip()).lower()
+    while True:
+        print("\nStudent Options:\n1. View Report Card\n2. Logout")
+        choice = input("Enter choice: ").strip()
 
-    if choice == 'y':
-        generate_report_card()
+        if choice == '1':
+            generate_report_card()
 
-    elif choice == 'n':
-        print("Returning to main menu...")
+        elif choice == '2':
+            print("👋 Logging out student...")
+            break
 
-    else:
-        print("❌ Invalid choice.")
+        else:
+            print("❌ Invalid choice.")
 
 # --------------------------- Security Handlers --------------------------- #
 
@@ -378,19 +392,19 @@ def student_signup():
 
         hashed_pw = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-    try:
-        db.cursor.execute(
-            """
-            UPDATE students 
-            SET username = %s, password_hash = %s 
-            WHERE roll_number = %s
-            """,
-            (username, hashed_pw, roll_number)
-        )
-        db.connection.commit()
-        print("✅ Successfully signed up.")
-    except Exception as e:
-        print("❌ Signup failed due to a database error:", e)
+        try:
+            db.cursor.execute(
+                """
+                UPDATE students 
+                SET username = %s, password_hash = %s 
+                WHERE roll_number = %s
+                """,
+                (username, hashed_pw, roll_number)
+            )
+            db.connection.commit()
+            print("✅ Successfully signed up.")
+        except Exception as e:
+            print("❌ Signup failed due to a database error:", e)
 
     else:
         print("❌ Roll number not found. Please contact admin.")
@@ -415,7 +429,7 @@ def student_login():
         password = input("Enter your password: ").strip()
 
         if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
-            print("✅ Login successful.")
+            print(f"\nWelcome 🙌🏻, {username}.")
             return True
         else:
             attempts -= 1
@@ -445,7 +459,7 @@ def admin_login():
         password = input("Enter your password: ").strip()
 
         if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
-            print("✅ Login successful.")
+            print(f"\nWelcome 🙌🏻, {username}.")
             return True
         else:
             attempts -= 1
