@@ -58,7 +58,7 @@ class Database:
         """
         self.cursor.execute(
             """
-            CREATE TABLE admins (
+            CREATE TABLE IF NOT EXISTS admins (
             id INT PRIMARY KEY AUTO_INCREMENT,
             admin_name VARCHAR(100),
             username VARCHAR(100) UNIQUE,
