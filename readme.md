@@ -62,6 +62,11 @@ DB_PORT=3306
 DB_NAME=...
 DB_USER=...
 DB_PASSWORD=...
+```
 
 ## Author
 Chandhru Loganathan
+
+
+
+
